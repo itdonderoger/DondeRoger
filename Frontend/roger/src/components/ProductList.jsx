@@ -12,13 +12,13 @@ const ProductList = () => {
   }, []);
 
   const fetchProducts = async () => {
-    const res = await fetch("http://localhost:4000/api/products");
+    const res = await fetch("https://donderoger.onrender.com/api/products");
     const data = await res.json();
     setProducts(data);
   };
 
   const fetchBatches = async () => {
-    const res = await fetch("http://localhost:4000/api/batches");
+    const res = await fetch("https://donderoger.onrender.com/api/batches");
     const data = await res.json();
     const grouped = data.reduce((acc, batch) => {
       const id = batch.product._id;

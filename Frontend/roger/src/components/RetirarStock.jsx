@@ -13,7 +13,7 @@ const RetirarStock = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await fetch("http://localhost:4000/api/products");
+      const res = await fetch("https://donderoger.onrender.com/api/products");
       if (!res.ok) throw new Error("Error al cargar productos");
       const data = await res.json();
       setProducts(data);
@@ -36,7 +36,7 @@ const RetirarStock = () => {
     if (!quantity || Number(quantity) <= 0) return alert("Ingrese cantidad válida");
 
     try {
-      const res = await fetch("http://localhost:4000/api/batches/exit", {
+      const res = await fetch("https://donderoger.onrender.com/api/batches/exit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ productId: selectedProduct, quantity: Number(quantity) }),

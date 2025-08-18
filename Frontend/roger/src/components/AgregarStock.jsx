@@ -15,7 +15,7 @@ const AgregarStock = () => {
   }, []);
 
   const fetchProducts = async () => {
-    const res = await fetch("http://localhost:4000/api/products");
+    const res = await fetch("https://donderoger.onrender.com/api/products");
     if (!res.ok) return alert("Error al cargar productos");
     const data = await res.json();
     setProducts(data);
@@ -23,7 +23,7 @@ const AgregarStock = () => {
 
   const fetchBatches = async (productId) => {
     if (!productId) return setBatches([]);
-    const res = await fetch(`http://localhost:4000/api/batches/${productId}`);
+    const res = await fetch(`https://donderoger.onrender.com/api/batches/${productId}`);
     if (!res.ok) return alert("Error al cargar lotes");
     const data = await res.json();
     setBatches(data);
@@ -74,7 +74,7 @@ const AgregarStock = () => {
       code: selectedBatch ? undefined : `L-${Date.now()}`,
     };
 
-    const res = await fetch("http://localhost:4000/api/batches/entry", {
+    const res = await fetch("https://donderoger.onrender.com/api/batches/entry", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
