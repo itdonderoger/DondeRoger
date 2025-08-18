@@ -1,0 +1,47 @@
+/* src/styles/ProductList.css */
+.product-list {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #fff8f0; /* Mostaza suave */
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  font-family: 'Arial', sans-serif;
+  color: #000; /* Texto negro */
+}
+
+.product-list h2 {
+  text-align: center;
+  color: #000; /* Título negro */
+  margin-bottom: 25px;
+}
+
+.product-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.product-list th,
+.product-list td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+  color: #000; /* Asegura que el texto sea negro */
+  font-size: 1rem;
+}
+
+.product-list th {
+  background-color: #e0a800; /* Mostaza más fuerte para encabezado */
+  color: #fff; /* Texto blanco solo en header */
+  font-size: 1.1rem;
+}
+
+/* Fondo amarillo para lotes y precios */
+.product-list .batch-cell {
+  background-color: #fff8f0; /* Mostaza suave */
+  color: #000; /* Texto negro */
+}
+
+.product-list tr:hover {
+  background-color: #fce8b0; /* Destacar fila al pasar el mouse */
+}

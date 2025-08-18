@@ -1,0 +1,54 @@
+form.crear-producto {
+  max-width: 450px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #fff8f0; /* Mostaza suave */
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+form.crear-producto h3 {
+  text-align: center;
+  color: #333;
+  font-size: 1.8rem;
+}
+
+form.crear-producto label {
+  color: #000; /* Negro para los labels */
+  font-weight: bold;
+  font-size: 1rem;
+  margin-bottom: 5px;
+}
+
+form.crear-producto input {
+  padding: 15px;
+  font-size: 1.1rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+form.crear-producto input:focus {
+  border-color: #e0a800; /* Mostaza */
+  box-shadow: 0 0 5px #e0a80050;
+}
+
+form.crear-producto button {
+  padding: 15px;
+  font-size: 1.2rem;
+  background-color: #e0a800; /* Mostaza */
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+form.crear-producto button:hover {
+  background-color: #cf8d00; /* Mostaza más oscuro */
+}

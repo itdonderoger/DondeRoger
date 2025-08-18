@@ -1,0 +1,49 @@
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;       /* Ocupa toda la altura de la ventana */
+  width: 100vw;             /* Ancho completo */
+  background-color: #fdf8f2;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  box-sizing: border-box;   /* Para evitar problemas con padding/margin */
+  padding: 20px;            /* Un poco de espacio interno */
+}
+
+.error-container h1 {
+  font-size: 3rem;
+  color: #ff4d4f;
+  margin-bottom: 20px;
+}
+
+.error-container p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.error-container button {
+  background-color: #0c133f;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.error-container button:hover {
+  background-color: #1a1a3a;
+  transform: translateY(-1px);
+}
+
+.error-container button:active {
+  transform: translateY(0);
+}
+
+.error-acceso {
+  color: #ff4d4f;
+  font-weight: bold;
+}

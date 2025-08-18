@@ -1,0 +1,78 @@
+/* src/styles/AgregarStock.css y RetirarStock.css */
+
+form.agregar-stock,
+form.retirar-stock {
+  max-width: 450px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #fff8f0; /* Mostaza suave */
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+form h3 {
+  text-align: center;
+  color: #333;
+  font-size: 1.8rem;
+}
+
+form label {
+  color: #111;
+  font-weight: bold;
+  margin-bottom: -10px;
+  margin-top: 5px;
+  font-size: 1.05rem;
+}
+
+form select,
+form input {
+  padding: 15px;
+  font-size: 1.1rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+form select:focus,
+form input:focus {
+  border-color: #e0a800; /* Mostaza */
+  box-shadow: 0 0 5px #e0a80050;
+}
+
+form button {
+  padding: 15px;
+  font-size: 1.2rem;
+  background-color: #e0a800; /* Mostaza */
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+form button:hover {
+  background-color: #cf8d00; /* Mostaza más oscuro al hover */
+}
+
+form select {
+  padding: 15px 20px;
+  font-size: 1.1rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: border 0.3s, box-shadow 0.3s;
+  width: 100%; /* ocupa todo el ancho del formulario */
+  min-width: 250px; /* asegura un ancho mínimo */
+}
+
+option {
+  font-size: 1rem;
+  white-space: nowrap; /* evita que se corte el texto */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
