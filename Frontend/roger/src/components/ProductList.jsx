@@ -37,30 +37,34 @@ const ProductList = () => {
     }
   };
 
-  const handleDeleteBatch = async (batchId) => {
-    if (!window.confirm("¿Seguro que deseas eliminar este lote?")) return;
+  const handleDeleteBatch = async (batchId, remaining) => {
+  if (remaining > 0) {
+    alert("No se puede eliminar un lote con stock disponible. Retíralo primero.");
+    return;
+  }
 
-    try {
-      const res = await fetch(`https://donderoger.onrender.com/api/batches/${batchId}`, {
-        method: "DELETE",
-      });
-      if (!res.ok) throw new Error("Error al eliminar lote");
+  if (!window.confirm("¿Seguro que deseas eliminar este lote?")) return;
 
-      // actualizar UI sin recargar
-      setBatches((prev) => {
-        const updated = { ...prev };
-        for (let key in updated) {
-          updated[key] = updated[key].filter((b) => b._id !== batchId);
-        }
-        return updated;
-      });
+  try {
+    const res = await fetch(`https://donderoger.onrender.com/api/batches/${batchId}`, {
+      method: "DELETE",
+    });
+    if (!res.ok) throw new Error("Error al eliminar lote");
 
-      // refrescar productos porque cambia el stock total
-      fetchProducts();
-    } catch (err) {
-      alert(err.message);
-    }
-  };
+    setBatches((prev) => {
+      const updated = { ...prev };
+      for (let key in updated) {
+        updated[key] = updated[key].filter((b) => b._id !== batchId);
+      }
+      return updated;
+    });
+
+    fetchProducts();
+  } catch (err) {
+    alert(err.message);
+  }
+};
+
 
   return (
     <div className="product-list">
@@ -88,7 +92,7 @@ const ProductList = () => {
                           <p><strong>Código de lote:</strong> {b.code}</p>
                           <button
                             className="delete-btn"
-                            onClick={() => handleDeleteBatch(b._id)}
+                            onClick={() => handleDeleteBatch(b._id, b.remaining)}
                             title="Eliminar lote"
                           >
                             <svg
