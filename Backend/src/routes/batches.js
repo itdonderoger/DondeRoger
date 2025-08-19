@@ -1,11 +1,18 @@
 import express from "express";
-import { addStock, removeStock, getAllBatches, getProductBatches } from "../controllers/batchController.js";
+import {
+  addStock,
+  removeStock,
+  getAllBatches,
+  getProductBatches,
+  deleteBatch,   // ⬅️ nuevo
+} from "../controllers/batchController.js";
 
 const router = express.Router();
 
-router.post("/entry", addStock);          // Agregar stock
-router.post("/exit", removeStock);        // Retirar stock
-router.get("/", getAllBatches);           // Todos los lotes
-router.get("/:productId", getProductBatches); // Lotes de un producto
+router.post("/entry", addStock);
+router.post("/exit", removeStock);
+router.get("/", getAllBatches);
+router.get("/:productId", getProductBatches);
+router.delete("/:batchId", deleteBatch);  // ⬅️ nuevo
 
 export default router;

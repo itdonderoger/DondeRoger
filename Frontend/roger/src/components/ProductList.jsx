@@ -12,50 +12,113 @@ const ProductList = () => {
   }, []);
 
   const fetchProducts = async () => {
-    const res = await fetch("https://donderoger.onrender.com/api/products");
-    const data = await res.json();
-    setProducts(data);
+    try {
+      const res = await fetch("https://donderoger.onrender.com/api/products");
+      const data = await res.json();
+      setProducts(data);
+    } catch (err) {
+      console.error("Error cargando productos", err);
+    }
   };
 
   const fetchBatches = async () => {
-    const res = await fetch("https://donderoger.onrender.com/api/batches");
-    const data = await res.json();
-    const grouped = data.reduce((acc, batch) => {
-      const id = batch.product._id;
-      if (!acc[id]) acc[id] = [];
-      acc[id].push(batch);
-      return acc;
-    }, {});
-    setBatches(grouped);
+    try {
+      const res = await fetch("https://donderoger.onrender.com/api/batches");
+      const data = await res.json();
+      const grouped = data.reduce((acc, batch) => {
+        const id = batch.product._id;
+        if (!acc[id]) acc[id] = [];
+        acc[id].push(batch);
+        return acc;
+      }, {});
+      setBatches(grouped);
+    } catch (err) {
+      console.error("Error cargando lotes", err);
+    }
+  };
+
+  const handleDeleteBatch = async (batchId) => {
+    if (!window.confirm("¿Seguro que deseas eliminar este lote?")) return;
+
+    try {
+      const res = await fetch(`https://donderoger.onrender.com/api/batches/${batchId}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) throw new Error("Error al eliminar lote");
+
+      // actualizar UI sin recargar
+      setBatches((prev) => {
+        const updated = { ...prev };
+        for (let key in updated) {
+          updated[key] = updated[key].filter((b) => b._id !== batchId);
+        }
+        return updated;
+      });
+
+      // refrescar productos porque cambia el stock total
+      fetchProducts();
+    } catch (err) {
+      alert(err.message);
+    }
   };
 
   return (
     <div className="product-list">
       <h2>Lista de Productos</h2>
-      {products.map(p => (
-        <div key={p._id} className="product-card">
-          <div className="product-info">
-            <h3>{p.name}</h3>
-            <p><strong>Descripción:</strong> {p.description}</p>
-            <p><strong>Código:</strong> {p.code}</p>
-            <p><strong>Stock total:</strong> {p.totalStock}</p>
+      <div className="cards-container">
+        {products.map((p) => (
+          <div key={p._id} className="product-card">
+            <div className="product-info">
+              <h3>{p.name}</h3>
+              <p><strong>Descripción:</strong> {p.description}</p>
+              <p><strong>Código:</strong> {p.code}</p>
+              <p><strong>Stock total:</strong> {p.totalStock}</p>
+            </div>
+
+            <div className="batch-info">
+              <h4>Lotes / Precios</h4>
+              {batches[p._id] ? (
+                <div className="batch-cards">
+                  {batches[p._id].map((b) => (
+                    <div className="batch-cards">
+                      {batches[p._id].map((b) => (
+                        <div key={b._id} className="batch-card">
+                          <p><strong>Precio:</strong> {b.price}</p>
+                          <p><strong>Stock disponible:</strong> {b.remaining}</p>
+                          <p><strong>Código de lote:</strong> {b.code}</p>
+                          <button
+                            className="delete-btn"
+                            onClick={() => handleDeleteBatch(b._id)}
+                            title="Eliminar lote"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth={1.5}
+                              stroke="currentColor"
+                              className="icon"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M6 18L18 6M6 6l12 12"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+
+                  ))}
+                </div>
+              ) : (
+                <p>No hay lotes registrados</p>
+              )}
+            </div>
           </div>
-          <div className="batch-info">
-            <h4>Lotes / Precios</h4>
-            {batches[p._id] ? (
-              <ul>
-                {batches[p._id].map(b => (
-                  <li key={b._id}>
-                    Precio: {b.price} | Stock: {b.remaining} | Código lote: {b.code}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>No hay lotes registrados</p>
-            )}
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };

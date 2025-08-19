@@ -1,47 +1,55 @@
-/* src/styles/ProductList.css */
 .product-list {
-  max-width: 1000px;
-  margin: 40px auto;
-  padding: 30px;
-  background-color: #fff8f0; /* Mostaza suave */
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  font-family: 'Arial', sans-serif;
-  color: #000; /* Texto negro */
+  padding: 20px;
+  color: #000; /* Todo texto dentro de product-list será negro */
 }
 
-.product-list h2 {
-  text-align: center;
-  color: #000; /* Título negro */
-  margin-bottom: 25px;
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
 }
 
-.product-list table {
-  width: 100%;
-  border-collapse: collapse;
+/* Cada tarjeta comienza desde el inicio de la fila y no se estira */
+.product-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 15px;
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  align-self: start; /* clave para que no se estire al alto de la más alta */
 }
 
-.product-list th,
-.product-list td {
-  padding: 12px 15px;
-  text-align: left;
-  border-bottom: 1px solid #ccc;
-  color: #000; /* Asegura que el texto sea negro */
-  font-size: 1rem;
+
+.batch-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
-.product-list th {
-  background-color: #e0a800; /* Mostaza más fuerte para encabezado */
-  color: #fff; /* Texto blanco solo en header */
-  font-size: 1.1rem;
+.batch-card {
+  position: relative;
+  background: #f9f9f9;
+  border-radius: 10px;
+  padding: 10px;
+  flex: 1 1 120px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  color: #000; /* Texto negro dentro de cada lote */
 }
 
-/* Fondo amarillo para lotes y precios */
-.product-list .batch-cell {
-  background-color: #fff8f0; /* Mostaza suave */
-  color: #000; /* Texto negro */
+.delete-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #e63946;
+  padding: 4px;
 }
 
-.product-list tr:hover {
-  background-color: #fce8b0; /* Destacar fila al pasar el mouse */
+.delete-btn .icon {
+  width: 20px;
+  height: 20px;
 }

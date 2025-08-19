@@ -18,7 +18,7 @@ export const addStock = async (req, res) => {
       if (!batch) return res.status(404).json({ error: "Lote no encontrado" });
 
       batch.remaining += Number(quantity);
-      batch.price = Number(price.toFixed(2)); // aseguramos decimales
+      batch.price = Number(price.toFixed(2));
       await batch.save();
     } else {
       // 🔹 Crear nuevo lote
@@ -31,11 +31,9 @@ export const addStock = async (req, res) => {
       });
     }
 
-    // 🔹 Actualizar stock total del producto
     product.totalStock += Number(quantity);
     await product.save();
 
-    // 🔹 Registrar movimiento
     await Movement.create({
       product: productId,
       type: "entrada",
@@ -107,4 +105,27 @@ export const getProductBatches = async (req, res) => {
   const { productId } = req.params;
   const batches = await Batch.find({ product: productId });
   res.json(batches);
+};
+
+// ❌ Eliminar un lote (solo si no tiene stock)
+export const deleteBatch = async (req, res) => {
+  try {
+    const { batchId } = req.params;
+
+    const batch = await Batch.findById(batchId);
+    if (!batch) return res.status(404).json({ error: "Lote no encontrado" });
+
+    if (batch.remaining > 0) {
+      return res.status(400).json({ error: "No se puede eliminar un lote con stock. Retíralo primero." });
+    }
+
+    // Opcional: eliminar movimientos relacionados
+    await Movement.deleteMany({ code: batch.code });
+
+    await batch.deleteOne();
+
+    res.json({ message: "Lote eliminado correctamente" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
