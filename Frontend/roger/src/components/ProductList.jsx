@@ -38,32 +38,32 @@ const ProductList = () => {
   };
 
   const handleDeleteBatch = async (batchId, remaining) => {
-  if (remaining > 0) {
-    alert("No se puede eliminar un lote con stock disponible. Retíralo primero.");
-    return;
-  }
+    if (remaining > 0) {
+      alert("No se puede eliminar un lote con stock disponible. Retíralo primero.");
+      return;
+    }
 
-  if (!window.confirm("¿Seguro que deseas eliminar este lote?")) return;
+    if (!window.confirm("¿Seguro que deseas eliminar este lote?")) return;
 
-  try {
-    const res = await fetch(`https://donderoger.onrender.com/api/batches/${batchId}`, {
-      method: "DELETE",
-    });
-    if (!res.ok) throw new Error("Error al eliminar lote");
+    try {
+      const res = await fetch(`https://donderoger.onrender.com/api/batches/${batchId}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) throw new Error("Error al eliminar lote");
 
-    setBatches((prev) => {
-      const updated = { ...prev };
-      for (let key in updated) {
-        updated[key] = updated[key].filter((b) => b._id !== batchId);
-      }
-      return updated;
-    });
+      setBatches((prev) => {
+        const updated = { ...prev };
+        for (let key in updated) {
+          updated[key] = updated[key].filter((b) => b._id !== batchId);
+        }
+        return updated;
+      });
 
-    fetchProducts();
-  } catch (err) {
-    alert(err.message);
-  }
-};
+      fetchProducts();
+    } catch (err) {
+      alert(err.message);
+    }
+  };
 
   // Eliminar producto y sus lotes
   const handleDeleteProduct = async (productId) => {
@@ -87,7 +87,6 @@ const ProductList = () => {
     }
   };
 
-
   return (
     <div className="product-list">
       <h2>Lista de Productos</h2>
@@ -99,6 +98,28 @@ const ProductList = () => {
               <p><strong>Descripción:</strong> {p.description}</p>
               <p><strong>Código:</strong> {p.code}</p>
               <p><strong>Stock total:</strong> {p.totalStock}</p>
+
+              {/* Botón eliminar producto */}
+              <button
+                className="delete-btn"
+                onClick={() => handleDeleteProduct(p._id)}
+                title="Eliminar producto"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="icon"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
             </div>
 
             <div className="batch-info">
@@ -106,36 +127,31 @@ const ProductList = () => {
               {batches[p._id] ? (
                 <div className="batch-cards">
                   {batches[p._id].map((b) => (
-                    <div className="batch-cards">
-                      {batches[p._id].map((b) => (
-                        <div key={b._id} className="batch-card">
-                          <p><strong>Precio:</strong> {b.price}</p>
-                          <p><strong>Stock disponible:</strong> {b.remaining}</p>
-                          <p><strong>Código de lote:</strong> {b.code}</p>
-                          <button
-                            className="delete-btn"
-                            onClick={() => handleDeleteBatch(b._id, b.remaining)}
-                            title="Eliminar lote"
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              strokeWidth={1.5}
-                              stroke="currentColor"
-                              className="icon"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M6 18L18 6M6 6l12 12"
-                              />
-                            </svg>
-                          </button>
-                        </div>
-                      ))}
+                    <div key={b._id} className="batch-card">
+                      <p><strong>Precio:</strong> {b.price}</p>
+                      <p><strong>Stock disponible:</strong> {b.remaining}</p>
+                      <p><strong>Código de lote:</strong> {b.code}</p>
+                      <button
+                        className="delete-btn"
+                        onClick={() => handleDeleteBatch(b._id, b.remaining)}
+                        title="Eliminar lote"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="icon"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </button>
                     </div>
-
                   ))}
                 </div>
               ) : (
