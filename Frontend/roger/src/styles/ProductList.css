@@ -19,6 +19,7 @@
   display: flex;
   flex-direction: column;
   align-self: start; /* clave para que no se estire al alto de la más alta */
+  position: relative; /* necesario para ubicar el botón de eliminar producto */
 }
 
 .batch-cards {
@@ -62,20 +63,21 @@
 
 /* Botón para eliminar producto */
 .delete-product {
-  position: static; /* que no se superponga como los de lote */
-  margin-top: 12px;
-  padding: 8px 12px;
+  position: absolute; /* ahora está en la esquina de la card */
+  top: 8px;
+  right: 8px;
+  padding: 6px 10px;
   background: #e63946;
   color: #fff;
   font-weight: bold;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  align-self: flex-start;
   transition: background 0.2s ease, transform 0.2s ease;
+  z-index: 2;
 }
 
 .delete-product:hover {
   background: #d00000;
-  transform: translateY(-2px);
+  transform: scale(1.1);
 }
