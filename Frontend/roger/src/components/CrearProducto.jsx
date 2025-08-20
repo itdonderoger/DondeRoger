@@ -36,10 +36,18 @@ const CrearProducto = () => {
     window.location.reload();
   };
 
-  // Permite solo números
+  // Permite solo números enteros >=0
   const handleNumericChange = (setter) => (e) => {
     const value = e.target.value;
     if (/^\d*$/.test(value)) { // solo dígitos
+      setter(value);
+    }
+  };
+
+  // Permite decimales >= 0
+  const handleDecimalChange = (setter) => (e) => {
+    const value = e.target.value;
+    if (/^\d*\.?\d*$/.test(value)) { // dígitos + punto opcional
       setter(value);
     }
   };
@@ -67,7 +75,7 @@ const CrearProducto = () => {
         type="text"
         placeholder="Precio"
         value={price}
-        onChange={handleNumericChange(setPrice)}
+        onChange={handleDecimalChange(setPrice)} // ← cambio aquí
         required
       />
 

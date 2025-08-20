@@ -21,7 +21,6 @@
   align-self: start; /* clave para que no se estire al alto de la más alta */
 }
 
-
 .batch-cards {
   display: flex;
   flex-wrap: wrap;
@@ -38,6 +37,7 @@
   color: #000; /* Texto negro dentro de cada lote */
 }
 
+/* Botón para eliminar lote */
 .delete-btn {
   position: absolute;
   top: 8px;
@@ -47,9 +47,35 @@
   cursor: pointer;
   color: #e63946;
   padding: 4px;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.delete-btn:hover {
+  transform: scale(1.2);
+  color: #d00000;
 }
 
 .delete-btn .icon {
   width: 20px;
   height: 20px;
+}
+
+/* Botón para eliminar producto */
+.delete-product {
+  position: static; /* que no se superponga como los de lote */
+  margin-top: 12px;
+  padding: 8px 12px;
+  background: #e63946;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.delete-product:hover {
+  background: #d00000;
+  transform: translateY(-2px);
 }

@@ -65,6 +65,28 @@ const ProductList = () => {
   }
 };
 
+  // Eliminar producto y sus lotes
+  const handleDeleteProduct = async (productId) => {
+    if (!window.confirm("¿Seguro que deseas eliminar este producto y todos sus lotes?")) return;
+
+    try {
+      const res = await fetch(`https://donderoger.onrender.com/api/products/${productId}`, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) throw new Error("Error al eliminar producto");
+
+      setProducts((prev) => prev.filter((p) => p._id !== productId));
+      setBatches((prev) => {
+        const updated = { ...prev };
+        delete updated[productId];
+        return updated;
+      });
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
 
   return (
     <div className="product-list">
