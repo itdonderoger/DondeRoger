@@ -25,6 +25,7 @@ app.use("/api/products", productsRoutes);   // Productos
 app.use("/api/batches", batchesRoutes);
 app.use("/api/login", loginRoutes);
 app.use("/api/logout", logoutRoutes);
+app.use("/api/movements", movementRoutes);
 
 
 export default app;

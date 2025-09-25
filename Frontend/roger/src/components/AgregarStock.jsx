@@ -1,116 +1,60 @@
-// src/components/AgregarStock.jsx
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/AgregarStock.css";
 
-const AgregarStock = () => {
-  const [products, setProducts] = useState([]);
+const AgregarStock = ({ products, batches, onRefresh }) => {
   const [selectedProduct, setSelectedProduct] = useState("");
-  const [batches, setBatches] = useState([]);
   const [selectedBatch, setSelectedBatch] = useState("");
   const [quantity, setQuantity] = useState("");
   const [price, setPrice] = useState("");
 
   useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  const fetchProducts = async () => {
-    const res = await fetch("https://donderoger.onrender.com/api/products");
-    if (!res.ok) return alert("Error al cargar productos");
-    const data = await res.json();
-    setProducts(data);
-  };
-
-  const fetchBatches = async (productId) => {
-    if (!productId) return setBatches([]);
-    const res = await fetch(`https://donderoger.onrender.com/api/batches/${productId}`);
-    if (!res.ok) return alert("Error al cargar lotes");
-    const data = await res.json();
-    setBatches(data);
-  };
-
-  const handleProductChange = (e) => {
-    const productId = e.target.value;
-    setSelectedProduct(productId);
-    setSelectedBatch("");
-    setPrice("");
-    setQuantity("");
-    fetchBatches(productId);
-  };
-
-  const handleBatchChange = (e) => {
-    const batchId = e.target.value;
-    setSelectedBatch(batchId);
-    const batch = batches.find(b => b._id === batchId);
-    setPrice(batch ? batch.price : "");
-    setQuantity("");
-  };
-
-  const handlePriceChange = (e) => {
-    const value = e.target.value;
-    if (/^\d*\.?\d*$/.test(value)) {
-      setPrice(value);
+    if (selectedBatch) {
+      const batch = batches[selectedProduct]?.find(b => b._id === selectedBatch);
+      if (batch) setPrice(batch.price);
     }
-  };
-
-  const handleQuantityChange = (e) => {
-    const value = e.target.value;
-    if (/^\d*$/.test(value)) {
-      setQuantity(value);
-    }
-  };
+  }, [selectedBatch, selectedProduct, batches]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!selectedProduct) return alert("Seleccione un producto");
-    if (!quantity || Number(quantity) <= 0) return alert("Ingrese cantidad válida");
-    if (!price || Number(price) <= 0) return alert("Ingrese precio válido");
+    if (!selectedProduct || !quantity || !price) return alert("Complete todos los campos");
 
     const body = {
       productId: selectedProduct,
       quantity: Number(quantity),
       price: Number(price),
       batchId: selectedBatch || undefined,
-      code: selectedBatch ? undefined : `L-${Date.now()}`,
+      code: selectedBatch ? undefined : `L-${Date.now()}`
     };
 
     const res = await fetch("https://donderoger.onrender.com/api/batches/entry", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
+      body: JSON.stringify(body)
     });
 
     if (!res.ok) return alert("Error al agregar stock");
     await res.json();
-    alert(selectedBatch ? "Lote actualizado correctamente" : "Stock agregado correctamente");
+    alert(selectedBatch ? "Lote actualizado" : "Stock agregado");
 
-    // Reset
-    setQuantity("");
-    setPrice("");
-    setSelectedBatch("");
-
-    // Recargar página para actualizar la lista
-    window.location.reload();
+    setSelectedProduct(""); setSelectedBatch(""); setQuantity(""); setPrice("");
+    if (onRefresh) onRefresh();
   };
 
   return (
     <form className="agregar-stock" onSubmit={handleSubmit}>
       <h3>Agregar Stock</h3>
-
       <label>Producto</label>
-      <select value={selectedProduct} onChange={handleProductChange} required>
+      <select value={selectedProduct} onChange={e => setSelectedProduct(e.target.value)} required>
         <option value="">Seleccione producto</option>
-        {products.map(p => (
-          <option key={p._id} value={p._id}>{p.name}</option>
-        ))}
+        {products.map(p => <option key={p._id} value={p._id}>{p.name}</option>)}
       </select>
 
-      {batches.length > 0 && (
+      {selectedProduct && batches[selectedProduct]?.length > 0 && (
         <>
           <label>Lote existente</label>
-          <select value={selectedBatch} onChange={handleBatchChange}>
+          <select value={selectedBatch} onChange={e => setSelectedBatch(e.target.value)}>
             <option value="">Nuevo lote / Precio distinto</option>
-            {batches.map(b => (
+            {batches[selectedProduct].map(b => (
               <option key={b._id} value={b._id}>
                 Código: {b.code} | Precio: {b.price}
               </option>
@@ -120,23 +64,9 @@ const AgregarStock = () => {
       )}
 
       <label>Precio</label>
-      <input
-        type="text"
-        placeholder="Precio"
-        value={price}
-        onChange={handlePriceChange}
-        required
-      />
-
+      <input type="text" value={price} onChange={e => setPrice(e.target.value)} required />
       <label>{selectedBatch ? "Cantidad a agregar" : "Cantidad"}</label>
-      <input
-        type="text"
-        placeholder={selectedBatch ? "Cantidad a agregar" : "Cantidad"}
-        value={quantity}
-        onChange={handleQuantityChange}
-        required
-      />
-
+      <input type="text" value={quantity} onChange={e => setQuantity(e.target.value)} required />
       <button type="submit">{selectedBatch ? "Actualizar Lote" : "Agregar"}</button>
     </form>
   );

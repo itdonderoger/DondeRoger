@@ -1,4 +1,3 @@
-// src/pages/Dashboard.jsx
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -6,13 +5,13 @@ import CrearProducto from "../components/CrearProducto";
 import AgregarStock from "../components/AgregarStock";
 import RetirarStock from "../components/RetirarStock";
 import ProductList from "../components/ProductList";
+import Kardex from "../components/Kardex";
 import Error404 from "../components/NotFound";
 import "../styles/Dashboard.css";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [authorized, setAuthorized] = useState(true);
-
   const [products, setProducts] = useState([]);
   const [batches, setBatches] = useState({});
 
@@ -46,7 +45,6 @@ const Dashboard = () => {
     setBatches(grouped);
   };
 
-  // Llama a ambos
   const fetchAll = () => {
     fetchProducts();
     fetchBatches();
@@ -56,16 +54,15 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard">
-      <button className="logout-btn" onClick={handleLogout}>
-        Logout
-      </button>
+      <button className="logout-btn" onClick={handleLogout}>Logout</button>
       <h1>Sistema de Productos</h1>
       <div className="forms">
         <CrearProducto onRefresh={fetchAll} />
-        <AgregarStock products={products} onRefresh={fetchAll} batches={batches} />
+        <AgregarStock products={products} batches={batches} onRefresh={fetchAll} />
         <RetirarStock products={products} onRefresh={fetchAll} />
       </div>
       <ProductList products={products} batches={batches} />
+      <Kardex products={products} />
     </div>
   );
 };
