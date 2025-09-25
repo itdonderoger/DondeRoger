@@ -8,6 +8,7 @@ import productsRoutes from "./src/routes/product.js";
 import batchesRoutes from "./src/routes/batches.js";
 import loginRoutes from "./src/routes/login.js";
 import logoutRoutes from "./src/routes/logout.js";
+import movementRoutes from "./src/routes/movement.js";
 
 const app = express();
 
