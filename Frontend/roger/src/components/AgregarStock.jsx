@@ -38,6 +38,7 @@ const AgregarStock = ({ products, batches, onRefresh }) => {
 
     setSelectedProduct(""); setSelectedBatch(""); setQuantity(""); setPrice("");
     if (onRefresh) onRefresh();
+    window.location.reload();
   };
 
   return (

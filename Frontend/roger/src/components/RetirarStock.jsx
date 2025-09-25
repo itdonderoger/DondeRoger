@@ -21,6 +21,7 @@ const RetirarStock = ({ products, onRefresh }) => {
     alert("Stock retirado correctamente");
     setSelectedProduct(""); setQuantity("");
     if (onRefresh) onRefresh();
+    window.location.reload();
   };
 
   return (

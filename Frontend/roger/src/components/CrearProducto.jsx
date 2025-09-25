@@ -28,6 +28,7 @@ const CrearProducto = ({ onRefresh }) => {
     setName(""); setDescription(""); setPrice(""); setCode(""); setStock("");
 
     if (onRefresh) onRefresh();
+    window.location.reload();
   };
 
   const handleNumericChange = (setter) => (e) => {
